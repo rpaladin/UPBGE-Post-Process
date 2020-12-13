@@ -1,0 +1,44 @@
+/**
+ * Toon Lines shader by Jose I. Romero (cyborg_ar)
+ *
+ * Based on blender's built-in "prewitt" filter which is free software
+ * released under the terms of the GNU General Public License version 2
+ * 
+ * The original code is (c) Blender Foundation.
+ */
+uniform sampler2D bgl_RenderedTexture;
+uniform vec2 bgl_TextureCoordinateOffset[9];
+
+uniform float line_size;
+
+void main(void)
+{
+    vec4 sample_vec[9];
+    vec4 border;
+    vec4 texcol = texture2D(bgl_RenderedTexture, gl_TexCoord[0].st);
+
+    for (int i = 0; i < 9; i++)
+    {
+        sample_vec[i] = texture2D(bgl_RenderedTexture, 
+                              gl_TexCoord[0].st + bgl_TextureCoordinateOffset[i]);
+    }
+
+    vec4 horizEdge = sample_vec[2] + sample_vec[5] + sample_vec[8] -
+                     (sample_vec[0] + sample_vec[3] + sample_vec[6]);
+
+    vec4 vertEdge = sample_vec[0] + sample_vec[1] + sample_vec[2] -
+                    (sample_vec[6] + sample_vec[7] + sample_vec[8]);
+
+    border.rgb = sqrt((horizEdge.rgb * horizEdge.rgb) + 
+                            (vertEdge.rgb * vertEdge.rgb));
+
+       if (border.r > (1.0-line_size)||border.g > (1.0-line_size)||border.b > (1.0-line_size)){
+        gl_FragColor.r = 0.0;
+        gl_FragColor.g = 0.0;
+        gl_FragColor.b = 0.0;
+        gl_FragColor.a = 1.0;
+    }else{
+        gl_FragColor.rgb = texcol.rgb;
+        gl_FragColor.a = 1.0;
+    }
+}
