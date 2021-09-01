@@ -3,7 +3,7 @@ A Blender 3D addon to make adding 2D filters to the game-engine easier
 
 <hr>
 
-The following shaders are broken in UPBGE 0.25a:
+The following shaders are broken in UPBGE 0.25:
 
 - Radial Blur
 - Retinex
