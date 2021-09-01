@@ -1,7 +1,0 @@
-The following shader scripts are broken in UPBGE 0.25a.
-
-- Radial Blur
-- Retinex
-- Toon
-
-Fixed now by RandomPerson/RandomPanda.
